@@ -1,0 +1,57 @@
+{
+    "name": "PHANTOMS V.3.3",
+    "description": "",
+    "dependencies": {
+        "device": "*",
+        "arcade-character-animations": "github:microsoft/arcade-character-animations#v0.0.2",
+        "arcade-premium-life": "github:jwunderl/arcade-premium-life#v0.2.1",
+        "Timers": "github:microsoft/arcade-timers#v1.1.0",
+        "pxt-button-combos": "github:jwunderl/pxt-button-combos#v0.0.24",
+        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
+        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1",
+        "Color Fading": "github:jwunderl/pxt-color#v0.2.3"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json",
+        "tilemap.g.jres",
+        "tilemap.g.ts",
+        "images.g.jres",
+        "images.g.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "branch": "v1.12.49",
+        "tag": "v1.12.49",
+        "commits": "https://github.com/microsoft/pxt-arcade/commits/8b39eda27ca91b27b57fc1f30c6b3b33d3fc2029",
+        "target": "1.12.51",
+        "pxt": "8.5.60",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj",
+    "palette": [
+        "#000000",
+        "#EFF4FB",
+        "#9A3970",
+        "#E15554",
+        "#6B5F86",
+        "#E1BC29",
+        "#A4839F",
+        "#3BB273",
+        "#285274",
+        "#87F2FF",
+        "#321B71",
+        "#45627B",
+        "#1E3445",
+        "#9DABB4",
+        "#66162F",
+        "#000000"
+    ]
+}
