@@ -376,6 +376,9 @@ controller.B.onEvent(ControllerButtonEvent.Released, function () {
 sprites.onOverlap(SpriteKind.SwordSlash, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.disintegrate, 500)
 })
+// Make sure to use comments and link them to the blocks or else if you click format they'll go to one area!
+// 
+// -pecan4
 let cannon_projectile: Sprite = null
 let myMenu: miniMenu.MenuSprite = null
 let Level = 0

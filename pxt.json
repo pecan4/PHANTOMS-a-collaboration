@@ -10,7 +10,10 @@
         "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
         "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1",
         "Color Fading": "github:jwunderl/pxt-color#v0.2.3",
-        "controller": "*"
+        "controller": "*",
+        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
+        "Declutter": "github:sargedev/declutter#6b0626bf1bd2c7d9a70b846031b5226e48ee932a",
+        "BetterSettings": "github:sargedev/bettersettings#2023.5.1"
     },
     "files": [
         "main.blocks",
