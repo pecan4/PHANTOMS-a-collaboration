@@ -27,7 +27,7 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         Ghost.vy = -300
         Jump = true
         Jump_Direction()
-    } else if (Jump == true) {
+    } else if (Jump) {
         Ghost.vy = -285
         Jump = false
         Jump_Direction()
@@ -39,7 +39,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.TestEnemy2, function (sprite, ot
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     Look_Cute = true
-    if (Facing_Left == true) {
+    if (Facing_Left) {
         animation.runImageAnimation(
         Ghost,
         assets.animation`Cute Left`,
@@ -92,8 +92,8 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`Finish`, function (sprite, lo
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     Look_Cute = false
-    if (Has_Bow == true) {
-        if (Facing_Left == true) {
+    if (Has_Bow) {
+        if (Facing_Left) {
             animation.runImageAnimation(
             Ghost,
             assets.animation`Bow Left`,
@@ -116,9 +116,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
                 Arrow.setKind(SpriteKind.Player_Projectile)
             })
         }
-    } else if (Has_Hammer == true) {
+    } else if (Has_Hammer) {
         if (Ghost.isHittingTile(CollisionDirection.Bottom)) {
-            if (Facing_Left == true) {
+            if (Facing_Left) {
                 animation.runImageAnimation(
                 Ghost,
                 assets.animation`Hammer Left`,
@@ -146,8 +146,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
                 })
             }
         }
-    } else if (Has_Sword == true) {
-        if (Facing_Left == true) {
+    } else if (Has_Sword) {
+        if (Facing_Left) {
             animation.runImageAnimation(
             Ghost,
             assets.animation`Sword Left`,
@@ -192,10 +192,10 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     Look_Cute = false
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.TestEnemy, function (sprite, otherSprite) {
-    if (Look_Cute == true) {
+    if (Look_Cute) {
         sprites.destroy(otherSprite, effects.confetti, 500)
         info.changeScoreBy(5)
-    } else if (Ground_Pound == true) {
+    } else if (Ground_Pound) {
         sprites.destroy(otherSprite, effects.disintegrate, 500)
         info.changeScoreBy(5)
     } else {
@@ -263,7 +263,7 @@ function NextLevel () {
     }
 }
 controller.down.onEvent(ControllerButtonEvent.Repeated, function () {
-    if (Ground_Pound == true) {
+    if (Ground_Pound) {
         Ghost.vy = 700
         Ground_Pound = false
         if (Ghost.isHittingTile(CollisionDirection.Bottom)) {
@@ -290,7 +290,7 @@ sprites.onOverlap(SpriteKind.Player_Projectile, SpriteKind.TestEnemy2, function 
     Standard_Enemy.follow(Ghost, 20)
 })
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Got_Bow == true) {
+    if (Got_Bow) {
         myMenu = miniMenu.createMenu(
         miniMenu.createMenuItem("Bow", assets.image`Bow`)
         )
@@ -303,7 +303,7 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
                 myMenu.close()
             }
         })
-    } else if (Got_Hammer == true) {
+    } else if (Got_Hammer) {
         myMenu = miniMenu.createMenu(
         miniMenu.createMenuItem("Bow", assets.image`Bow`),
         miniMenu.createMenuItem("Hammer", assets.image`Hammer`)
@@ -459,7 +459,7 @@ assets.animation`Animate TestEnemy Right`,
 characterAnimations.rule(Predicate.MovingRight)
 )
 game.onUpdateInterval(2000, function () {
-    if (Canon_Active == true) {
+    if (Canon_Active) {
         cannon_projectile = sprites.createProjectileFromSprite(assets.image`Fire Up`, Cannon_U, 0, -100)
         cannon_projectile.setFlag(SpriteFlag.DestroyOnWall, true)
         cannon_projectile = sprites.createProjectileFromSprite(assets.image`Fire Down`, Cannon_D, 0, 100)

@@ -9,7 +9,8 @@
         "pxt-button-combos": "github:jwunderl/pxt-button-combos#v0.0.24",
         "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
         "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1",
-        "Color Fading": "github:jwunderl/pxt-color#v0.2.3"
+        "Color Fading": "github:jwunderl/pxt-color#v0.2.3",
+        "controller": "*"
     },
     "files": [
         "main.blocks",
