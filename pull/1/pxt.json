@@ -1,0 +1,24 @@
+{
+    "name": "phantoms-a-collaboration-pull-1",
+    "dependencies": {
+        "device": "*",
+        "phantoms-a-collaboration": "github:pecan4/phantoms-a-collaboration"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "1.12.51",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj"
+}
