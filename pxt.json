@@ -10,7 +10,14 @@
         "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
         "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1",
         "Color Fading": "github:jwunderl/pxt-color#v0.2.3",
-        "controller": "*"
+        "controller": "*",
+        "arcade-sprite-util": "github:jwunderl/arcade-sprite-util#v0.4.1",
+        "darts": "*",
+        "arcade-platformer": "github:microsoft/arcade-platformer#v0.0.10",
+        "Extra Effects": "github:alexszeto/extra-effects#v3.1.0",
+        "Stats": "github:UnsignedArduino/Stats#758e35856bd5565e5d0e25c95cccfac79b7fc168",
+        "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.2.1",
+        "pxt-scaling": "github:jwunderl/pxt-scaling#v0.1.0"
     },
     "files": [
         "main.blocks",
@@ -39,20 +46,20 @@
     "preferredEditor": "blocksprj",
     "palette": [
         "#000000",
-        "#EFF4FB",
+        "#C4F0EF",
         "#9A3970",
         "#E15554",
-        "#6B5F86",
+        "#7867B7",
         "#E1BC29",
-        "#A4839F",
+        "#2D777E",
         "#3BB273",
         "#285274",
-        "#87F2FF",
+        "#4D9DE0",
         "#321B71",
         "#45627B",
         "#1E3445",
-        "#9DABB4",
+        "#8397A3",
         "#66162F",
-        "#000000"
+        "#030608"
     ]
 }
