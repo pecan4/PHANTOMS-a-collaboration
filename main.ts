@@ -38,11 +38,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`Next0`, function (sprite, loc
     scene.setBackgroundImage(assets.image`Gray`)
     tiles.setCurrentTilemap(tilemap`Level 3`)
     tiles.placeOnRandomTile(PhantomPlayerSprite, assets.tile`Start`)
-    Cannon_U.setFlag(SpriteFlag.Invisible, true)
-    Cannon_D.setFlag(SpriteFlag.Invisible, true)
-    Cannon_L.setFlag(SpriteFlag.Invisible, true)
-    Cannon_R.setFlag(SpriteFlag.Invisible, true)
-    Canon_Active = false
     Standard_Enemy = sprites.create(assets.image`Normal Enemy`, SpriteKind.Enemy)
     Standard_Enemy.follow(PhantomPlayerSprite, 10)
     statusbar = statusbars.create(20, 3, StatusBarKind.TestHP)
@@ -71,123 +66,7 @@ function Effects () {
     extraEffects.createTimeRange(200, 400)
     )
 }
-function Destroy (mySprite: Sprite) {
-    mySprite.setVelocity(0, 0)
-    mySprite.setKind(SpriteKind.Null)
-    animation.runImageAnimation(
-    mySprite,
-    [img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . 1 1 . . . . . . . 
-        . . . . . . 1 1 1 1 . . . . . . 
-        . . . . . . 1 1 1 1 . . . . . . 
-        . . . . . . . 1 1 . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . e e . . . . . . . 
-        . . . . . . f e 2 e . . . . . . 
-        . . . . . . f e e e . . . . . . 
-        . . . . . . . f f . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . f . . . . . . . . 
-        . . . . . . f . . f . . . . . . 
-        . . . . . . f . . . . . . . . . 
-        . . . . . . . f f . . . . . . . 
-        . . . . . . . f f . . . . . . . 
-        . . . . . . . . . f . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . f . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . f . . . . . . . 
-        . . . . . . f . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . f . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . f . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `],
-    100,
-    false
-    )
-    timer.after(700, function () {
-        sprites.destroy(mySprite)
-    })
-}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    Look_Cute = false
     if (Has_Bow) {
         if (Facing_Left) {
             animation.runImageAnimation(
@@ -278,7 +157,7 @@ statusbars.onZero(StatusBarKind.TestHP, function (status) {
     tiles.setCurrentTilemap(tilemap`also Level 3`)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.TestEnemy, function (sprite, otherSprite) {
-    if (Look_Cute) {
+    if (true) {
         sprites.destroy(otherSprite, effects.confetti, 500)
         info.changeScoreBy(5)
     } else if (Ground_Pound) {
@@ -306,7 +185,8 @@ sprites.onOverlap(SpriteKind.HammerStrike, SpriteKind.Enemy, function (sprite, o
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     timer.throttle("action", 500, function () {
-        Destroy(otherSprite)
+        Fancily_Destroy(otherSprite)
+        info.changeLifeBy(-1)
         scene.cameraShake(3, 500)
     })
 })
@@ -316,14 +196,6 @@ function NextLevel () {
         info.setLife(3)
         tiles.setCurrentTilemap(tilemap`Level 2`)
         tiles.placeOnTile(PhantomPlayerSprite, tiles.getTileLocation(1, 34))
-        tiles.placeOnTile(Cannon_U, tiles.getTileLocation(14, 33))
-        tiles.placeOnTile(Cannon_D, tiles.getTileLocation(14, 35))
-        tiles.placeOnTile(Cannon_L, tiles.getTileLocation(13, 34))
-        tiles.placeOnTile(Cannon_R, tiles.getTileLocation(15, 34))
-        tiles.placeOnTile(Test_Enemy, tiles.getTileLocation(6, 19))
-        Test_Enemy.setFlag(SpriteFlag.Invisible, false)
-        Test_Enemy.setFlag(SpriteFlag.GhostThroughSprites, false)
-        Test_Enemy.follow(PhantomPlayerSprite, 7)
     } else if (Level == 2) {
         info.setLife(3)
     } else {
@@ -340,9 +212,6 @@ controller.down.onEvent(ControllerButtonEvent.Repeated, function () {
             Ground_Pound = false
         }
     }
-})
-controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
-	
 })
 sprites.onOverlap(SpriteKind.Player_Projectile, SpriteKind.TestEnemy2, function (sprite, otherSprite) {
     sprites.destroy(sprite)
@@ -980,13 +849,128 @@ function CharacterAnimations () {
     )
 }
 scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
-    Destroy(sprite)
+    Fancily_Destroy(sprite)
 })
+function Fancily_Destroy (sprite: Sprite) {
+    sprite.setVelocity(0, 0)
+    sprite.setKind(SpriteKind.Null)
+    animation.runImageAnimation(
+    sprite,
+    [img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . 1 1 . . . . . . . 
+        . . . . . . 1 1 1 1 . . . . . . 
+        . . . . . . 1 1 1 1 . . . . . . 
+        . . . . . . . 1 1 . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . e e . . . . . . . 
+        . . . . . . f e 2 e . . . . . . 
+        . . . . . . f e e e . . . . . . 
+        . . . . . . . f f . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . f . . . . . . . . 
+        . . . . . . f . . f . . . . . . 
+        . . . . . . f . . . . . . . . . 
+        . . . . . . . f f . . . . . . . 
+        . . . . . . . f f . . . . . . . 
+        . . . . . . . . . f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . f . . . . . . . 
+        . . . . . . f . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . f . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . f . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `],
+    100,
+    false
+    )
+    timer.after(700, function () {
+        sprites.destroy(sprite)
+    })
+}
 sprites.onOverlap(SpriteKind.SwordSlash, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.disintegrate, 500)
 })
 let myDart: Dart = null
-let cannon_projectile: Sprite = null
+let cannon_projectile: Dart = null
 let DistanceFromPlayer = 0
 let myMenu: miniMenu.MenuSprite = null
 let Level = 0
@@ -994,12 +978,6 @@ let Arrow: Sprite = null
 let myEffect: SpreadEffectData = null
 let statusbar: StatusBarSprite = null
 let Standard_Enemy: Sprite = null
-let Cannon_R: Sprite = null
-let Cannon_L: Sprite = null
-let Cannon_D: Sprite = null
-let Cannon_U: Sprite = null
-let Canon_Active = false
-let Look_Cute = false
 let Ground_Pound = false
 let Facing_Left = false
 let Got_Sword = false
@@ -1008,7 +986,6 @@ let Got_Bow = false
 let Has_Hammer = false
 let Has_Sword = false
 let Has_Bow = false
-let Test_Enemy: Sprite = null
 let PhantomPlayerSprite: platformer.PlatformerSprite = null
 stats.turnStats(true)
 info.setLife(5)
@@ -1154,9 +1131,10 @@ PhantomPlayerSprite = platformer.create(img`
     `, SpriteKind.Player)
 platformer.moveSprite(PhantomPlayerSprite, true, 75)
 platformer.setFeatureEnabled(platformer.PlatformerFeatures.JumpOnUpPressed, true)
+platformer.setFeatureEnabled(platformer.PlatformerFeatures.JumpOnAPressed, false)
 platformer.setGravity(500, platformer.Direction.Down)
 scene.cameraFollowSprite(PhantomPlayerSprite)
-platformer.setConstantDefault(platformer.PlatformerConstant.MaxJumpHeight, 40)
+platformer.setConstantDefault(platformer.PlatformerConstant.MaxJumpHeight, 60)
 CharacterAnimations()
 Effects()
 let mySprite3 = sprites.create(img`
@@ -1181,7 +1159,6 @@ game.showLongText("PHANTOMS                 A Collaboration Platformer", DialogL
 game.showLongText("By Cursedeclipse, pecan4, Josef, CopySprite, TeddyB, Luke, JtSpeedRun, HaruhitoGames, Not-a-creepy-doll and InvalidProject", DialogLayout.Full)
 tiles.setCurrentTilemap(tilemap`level 1`)
 let ShopKeeper = sprites.create(assets.image`ShopKeeper`, SpriteKind.ShopGuy)
-Test_Enemy = sprites.create(assets.image`TestEnemy`, SpriteKind.Enemy)
 tiles.placeOnRandomTile(PhantomPlayerSprite, assets.tile`Start`)
 Has_Bow = false
 Has_Sword = false
@@ -1192,15 +1169,11 @@ Got_Sword = false
 Facing_Left = false
 let Jump = false
 Ground_Pound = false
-Look_Cute = false
-Canon_Active = true
 ShopKeeper.setFlag(SpriteFlag.Invisible, true)
-Test_Enemy.setFlag(SpriteFlag.Invisible, true)
-Test_Enemy.setFlag(SpriteFlag.GhostThroughSprites, true)
 PhantomPlayerSprite.setFlag(SpriteFlag.StayInScreen, true)
 controller.moveSprite(PhantomPlayerSprite, 100, 0)
-profilelife.setMaxLife(3)
-info.setLife(3)
+profilelife.setMaxLife(5)
+info.setLife(5)
 profilelife.setFilledLifeImage(assets.image`Health`)
 profilelife.setEmptyLifeImage(assets.image`HP lost`)
 music.setVolume(80)
@@ -1211,14 +1184,6 @@ assets.animation`ShopMan`,
 500,
 true
 )
-Cannon_U = sprites.create(assets.image`cannonup`, SpriteKind.Blaster)
-tiles.placeOnTile(Cannon_U, tiles.getTileLocation(14, 3))
-Cannon_D = sprites.create(assets.image`cannondown`, SpriteKind.Blaster)
-tiles.placeOnTile(Cannon_D, tiles.getTileLocation(14, 5))
-Cannon_L = sprites.create(assets.image`cannonleft`, SpriteKind.Blaster)
-tiles.placeOnTile(Cannon_L, tiles.getTileLocation(13, 4))
-Cannon_R = sprites.create(assets.image`cannonright`, SpriteKind.Blaster)
-tiles.placeOnTile(Cannon_R, tiles.getTileLocation(15, 4))
 game.onUpdate(function () {
     for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
         if (spriteutils.distanceBetween(PhantomPlayerSprite, value) < DistanceFromPlayer) {
@@ -1284,15 +1249,84 @@ game.onUpdate(function () {
     }
 })
 game.onUpdateInterval(2000, function () {
-    if (Canon_Active) {
-        cannon_projectile = sprites.createProjectileFromSprite(assets.image`Fire Up`, Cannon_U, 0, -100)
+    for (let value of tiles.getTilesByType(assets.tile`Upward cannon tile`)) {
+        cannon_projectile = darts.create(img`
+            . . . . . . . 4 4 . . . . . . . 
+            . . . . . . . 4 4 . . . . . . . 
+            . . . . . . 4 6 6 4 . . . . . . 
+            . . . . . . 4 6 6 4 . . . . . . 
+            . . . . . 4 6 4 4 6 4 . . . . . 
+            . . . . . 4 6 4 4 6 4 . . . . . 
+            . . . . 4 6 4 4 4 4 6 4 . . . . 
+            . . . . 4 6 4 4 4 4 6 4 . . . . 
+            . . . 4 6 4 4 4 4 4 4 6 4 . . . 
+            . . . 4 6 4 4 4 4 4 4 6 4 . . . 
+            . . 4 6 4 4 4 4 4 4 4 4 6 4 . . 
+            . . 4 6 4 4 4 4 4 4 4 4 6 4 . . 
+            . 4 6 4 4 4 4 4 4 4 4 4 4 6 4 . 
+            . 4 6 4 4 4 4 4 4 4 4 4 4 6 4 . 
+            4 6 6 6 6 6 6 6 6 6 6 6 6 6 6 4 
+            . 4 4 4 4 4 4 4 4 4 4 4 4 4 4 . 
+            `, SpriteKind.Projectile)
         cannon_projectile.setFlag(SpriteFlag.DestroyOnWall, true)
-        cannon_projectile = sprites.createProjectileFromSprite(assets.image`Fire Down`, Cannon_D, 0, 100)
+        tiles.placeOnTile(cannon_projectile, value)
+        sprites.setDataNumber(cannon_projectile, "damage", 1)
+        cannon_projectile.setVelocity(0, -100)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile16`)) {
+        cannon_projectile = darts.create(img`
+            . 4 . . . . . . . . . . . . . . 
+            4 6 4 4 . . . . . . . . . . . . 
+            4 6 6 6 4 4 . . . . . . . . . . 
+            4 6 4 4 6 6 4 4 . . . . . . . . 
+            4 6 4 4 4 4 6 6 4 4 . . . . . . 
+            4 6 4 4 4 4 4 4 6 6 4 4 . . . . 
+            4 6 4 4 4 4 4 4 4 4 6 6 4 4 . . 
+            4 6 4 4 4 4 4 4 4 4 4 4 6 6 4 4 
+            4 6 4 4 4 4 4 4 4 4 4 4 6 6 4 4 
+            4 6 4 4 4 4 4 4 4 4 6 6 4 4 . . 
+            4 6 4 4 4 4 4 4 6 6 4 4 . . . . 
+            4 6 4 4 4 4 6 6 4 4 . . . . . . 
+            4 6 4 4 6 6 4 4 . . . . . . . . 
+            4 6 6 6 4 4 . . . . . . . . . . 
+            4 6 4 4 . . . . . . . . . . . . 
+            . 4 . . . . . . . . . . . . . . 
+            `, SpriteKind.Projectile)
         cannon_projectile.setFlag(SpriteFlag.DestroyOnWall, true)
-        cannon_projectile = sprites.createProjectileFromSprite(assets.image`Fire Left`, Cannon_L, -100, 0)
+        tiles.placeOnTile(cannon_projectile, value)
+        sprites.setDataNumber(cannon_projectile, "damage", 1)
+        cannon_projectile.setVelocity(100, 0)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile17`)) {
+        cannon_projectile = darts.create(img`
+            . 4 4 4 4 4 4 4 4 4 4 4 4 4 4 . 
+            4 6 6 6 6 6 6 6 6 6 6 6 6 6 6 4 
+            . 4 6 4 4 4 4 4 4 4 4 4 4 6 4 . 
+            . 4 6 4 4 4 4 4 4 4 4 4 4 6 4 . 
+            . . 4 6 4 4 4 4 4 4 4 4 6 4 . . 
+            . . 4 6 4 4 4 4 4 4 4 4 6 4 . . 
+            . . . 4 6 4 4 4 4 4 4 6 4 . . . 
+            . . . 4 6 4 4 4 4 4 4 6 4 . . . 
+            . . . . 4 6 4 4 4 4 6 4 . . . . 
+            . . . . 4 6 4 4 4 4 6 4 . . . . 
+            . . . . . 4 6 4 4 6 4 . . . . . 
+            . . . . . 4 6 4 4 6 4 . . . . . 
+            . . . . . . 4 6 6 4 . . . . . . 
+            . . . . . . 4 6 6 4 . . . . . . 
+            . . . . . . . 4 4 . . . . . . . 
+            . . . . . . . 4 4 . . . . . . . 
+            `, SpriteKind.Projectile)
         cannon_projectile.setFlag(SpriteFlag.DestroyOnWall, true)
-        cannon_projectile = sprites.createProjectileFromSprite(assets.image`Fire Right`, Cannon_R, 100, 0)
+        tiles.placeOnTile(cannon_projectile, value)
+        sprites.setDataNumber(cannon_projectile, "damage", 1)
+        cannon_projectile.setVelocity(0, 100)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile18`)) {
+        cannon_projectile = darts.create(assets.image`Fire Up`, SpriteKind.Projectile)
         cannon_projectile.setFlag(SpriteFlag.DestroyOnWall, true)
+        tiles.placeOnTile(cannon_projectile, value)
+        sprites.setDataNumber(cannon_projectile, "damage", 1)
+        cannon_projectile.setVelocity(-100, 0)
     }
 })
 game.onUpdateInterval(1000, function () {
@@ -1488,7 +1522,7 @@ game.onUpdateInterval(1000, function () {
                 )
             }
             timer.background(function () {
-                for (let index = 0; index < 4; index++) {
+                for (let index = 0; index < 2; index++) {
                     myDart = darts.create(img`
                         . . . . . . . . . . . . . . . . 
                         . . . . . . . . . . . . . . . . 
@@ -1507,6 +1541,7 @@ game.onUpdateInterval(1000, function () {
                         . . . . . . . . . . . . . . . . 
                         . . . . . . . . . . . . . . . . 
                         `, SpriteKind.Projectile, value3.x, value3.y)
+                    sprites.setDataNumber(myDart, "damage", 1)
                     // Randomness
                     spriteutils.setVelocityAtAngle(myDart, spriteutils.angleFrom(value3, PhantomPlayerSprite) + spriteutils.degreesToRadians(randint(-10, 10)), 70)
                 }
