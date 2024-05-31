@@ -89,11 +89,6 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Foargond"
     },
-    "1Z~*o%e+Xo|]OeOQGDtT": {
-        "data": "hwQHAAcAAADw/wAAPzMPAD8z8wDwMzMPPzPzAB8zDwDw/wAA",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Health"
-    },
     "image14": {
         "data": "hwQHAA8AAAAAAAAA/w8AAAD///9E//8A8N3d3U20uw/f3d3dfbS7D/Dd3d1NtLsPAP///0T//wAAAAAA/w8AAA==",
         "mimeType": "image/x-mkcd-f4",
@@ -149,8 +144,13 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Fire Up"
     },
+    "1Z~*o%e+Xo|]OeOQGDtT": {
+        "data": "hwQHAAcAAAAAMwAAMFUOADA15QAAUjMOIDXjACAzDgAA7gAA",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Health"
+    },
     "image19": {
-        "data": "hwQHAAcAAADw/wAAr6oPAK/I+gDwjKoPr4j4AL+KDwDw/wAA",
+        "data": "hwQHAAcAAAAAzAAAwIgPAMDI+AAAj8wP8Mj8APDMDwAA/wAA",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "HP lost"
     },

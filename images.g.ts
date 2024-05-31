@@ -574,16 +574,6 @@ f 4 f . .
 . f 6 6 f f 6 6 f f 6 6 f f 6 f 
 . . f f . . f f . . f f . . f . 
 `;
-            case "1Z~*o%e+Xo|]OeOQGDtT":
-            case "Health":return img`
-. f f . f f . 
-f 3 3 f 3 1 f 
-f 3 3 3 3 3 f 
-f 3 3 3 3 3 f 
-. f 3 3 3 f . 
-. . f 3 f . . 
-. . . f . . . 
-`;
             case "image14":
             case "Sword":return img`
 . . . f . . . 
@@ -1427,14 +1417,24 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 . . . . . . . . . . . . 4 4 6 4 
 . . . . . . . . . . . . . . 4 . 
 `;
+            case "1Z~*o%e+Xo|]OeOQGDtT":
+            case "Health":return img`
+. . . . . . . 
+. 3 3 . 2 2 . 
+3 5 5 2 5 3 e 
+3 5 3 5 3 3 e 
+. e 5 3 3 e . 
+. . e 3 e . . 
+. . . e . . . 
+`;
             case "image19":
             case "HP lost":return img`
-. f f . f f . 
-f a a f a b f 
-f a 8 c 8 a f 
-f a c 8 8 8 f 
-. f a a 8 f . 
-. . f a f . . 
+. . . . . . . 
+. c c . f f . 
+c 8 8 f 8 c f 
+c 8 c 8 c c f 
+. f 8 c c f . 
+. . f c f . . 
 . . . f . . . 
 `;
         }
