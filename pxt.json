@@ -21,7 +21,8 @@
         "arcade-platformer": "github:microsoft/arcade-platformer#v0.0.10",
         "Stats": "github:UnsignedArduino/Stats#758e35856bd5565e5d0e25c95cccfac79b7fc168",
         "arcade-tile-util": "github:microsoft/arcade-tile-util#v1.2.0",
-        "pxt-scaling": "github:jwunderl/pxt-scaling#v0.1.0"
+        "pxt-scaling": "github:jwunderl/pxt-scaling#v0.1.0",
+        "arcade-background-scroll": "github:microsoft/arcade-background-scroll#v0.1.2"
     },
     "files": [
         "main.blocks",
