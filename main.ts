@@ -15,28 +15,10 @@ namespace StatusBarKind {
 /**
  * -pecan4
  */
-// Make sure to use comments and link them to the blocks or else if you click format they'll go to one area!
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
-    if (In_game) {
-        tiles.setCurrentTilemap(tilemap`Also Level 3`)
-        music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.InBackground)
-        game.showLongText("You got the Phantom bow!        You have infinite arrows!", DialogLayout.Top)
-        Got_Bow = true
-        if (game.ask("Equip now? ")) {
-            Has_Bow = true
-        } else {
-            game.showLongText("Alright then.", DialogLayout.Top)
-        }
-    }
-})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (PhantomPlayerSprite.isHittingTile(CollisionDirection.Bottom) || PhantomPlayerSprite.isHittingTile(CollisionDirection.Right) || PhantomPlayerSprite.isHittingTile(CollisionDirection.Left)) {
         extraEffects.createSpreadEffectOnAnchor(PhantomPlayerSprite, EffectJump, 500, 10, 20)
     }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.TestEnemy2, function (sprite, otherSprite) {
-    info.changeLifeBy(-1)
-    tiles.placeOnRandomTile(PhantomPlayerSprite, assets.tile`Start`)
 })
 function destroy_all_sprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
@@ -55,23 +37,6 @@ function destroy_all_sprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.MiniMenu)
     sprites.destroyAllSpritesOfKind(SpriteKind.StatusBar)
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`Next0`, function (sprite, location) {
-    if (In_game) {
-        info.setLife(3)
-        scene.setBackgroundImage(assets.image`Gray`)
-        tiles.setCurrentTilemap(tilemap`Level 3`)
-        tiles.placeOnRandomTile(PhantomPlayerSprite, assets.tile`Start`)
-        Standard_Enemy = sprites.create(assets.image`Normal Enemy`, SpriteKind.Enemy)
-        Standard_Enemy.follow(PhantomPlayerSprite, 10)
-        statusbar = statusbars.create(20, 3, StatusBarKind.TestHP)
-        statusbar.max = 8
-        statusbar.value = 8
-        statusbar.attachToSprite(Standard_Enemy)
-        statusbar.setColor(3, 15, 1)
-        statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
-        tiles.placeOnTile(Standard_Enemy, tiles.getTileLocation(53, 9))
-    }
-})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`Finish`, function (sprite, location) {
     if (In_game) {
         NextLevel()
@@ -92,30 +57,6 @@ function Effects () {
     extraEffects.createTimeRange(200, 400)
     )
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-	
-})
-statusbars.onZero(StatusBarKind.TestHP, function (status) {
-    if (In_game) {
-        sprites.destroy(Standard_Enemy, effects.disintegrate, 500)
-        info.changeScoreBy(10)
-        tiles.setCurrentTilemap(tilemap`also Level 3`)
-    }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.TestEnemy, function (sprite, otherSprite) {
-    if (In_game) {
-        if (true) {
-            sprites.destroy(otherSprite, effects.confetti, 500)
-            info.changeScoreBy(5)
-        } else if (Ground_Pound) {
-            sprites.destroy(otherSprite, effects.disintegrate, 500)
-            info.changeScoreBy(5)
-        } else {
-            info.changeLifeBy(-1)
-            tiles.placeOnRandomTile(PhantomPlayerSprite, assets.tile`Start`)
-        }
-    }
-})
 sprites.onOverlap(SpriteKind.Player_Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.disintegrate, 200)
 })
@@ -265,101 +206,6 @@ function NextLevel () {
         game.gameOver(true)
     }
 }
-controller.down.onEvent(ControllerButtonEvent.Repeated, function () {
-    if (In_game) {
-        if (Ground_Pound) {
-            PhantomPlayerSprite.vy = 700
-            Ground_Pound = false
-            if (PhantomPlayerSprite.isHittingTile(CollisionDirection.Bottom)) {
-                Ground_Pound = false
-            }
-        }
-    }
-})
-sprites.onOverlap(SpriteKind.Player_Projectile, SpriteKind.TestEnemy2, function (sprite, otherSprite) {
-    if (In_game) {
-        sprites.destroy(sprite)
-        statusbar.value += -3
-        Standard_Enemy.follow(PhantomPlayerSprite, 20)
-    }
-})
-controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (In_game) {
-        if (Got_Bow) {
-            myMenu = miniMenu.createMenu(
-            miniMenu.createMenuItem("Bow", assets.image`Bow`)
-            )
-            myMenu.setFlag(SpriteFlag.StayInScreen, true)
-            myMenu.setDimensions(100, 100)
-            myMenu.setTitle("Weapons")
-            myMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
-                if (selectedIndex == 0) {
-                    Has_Bow = true
-                    myMenu.close()
-                }
-            })
-        } else if (Got_Hammer) {
-            myMenu = miniMenu.createMenu(
-            miniMenu.createMenuItem("Bow", assets.image`Bow`),
-            miniMenu.createMenuItem("Hammer", assets.image`Hammer`)
-            )
-            myMenu.setFlag(SpriteFlag.StayInScreen, true)
-            myMenu.setDimensions(100, 100)
-            myMenu.setTitle("Weapons")
-            myMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
-                if (selectedIndex == 0) {
-                    Has_Bow = true
-                    Has_Hammer = false
-                    myMenu.close()
-                } else if (selectedIndex == 1) {
-                    Has_Hammer = true
-                    Has_Bow = false
-                    myMenu.close()
-                }
-            })
-        } else if (Got_Sword == true) {
-            myMenu = miniMenu.createMenu(
-            miniMenu.createMenuItem("Bow", assets.image`Bow`),
-            miniMenu.createMenuItem("Hammer", assets.image`Hammer`),
-            miniMenu.createMenuItem("Sword", assets.image`Sword`)
-            )
-            myMenu.setFlag(SpriteFlag.StayInScreen, true)
-            myMenu.setDimensions(100, 100)
-            myMenu.setTitle("Weapons")
-            myMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
-                if (selectedIndex == 0) {
-                    Has_Bow = true
-                    Has_Hammer = false
-                    Has_Sword = false
-                    myMenu.close()
-                } else if (selectedIndex == 1) {
-                    Has_Hammer = true
-                    Has_Bow = false
-                    Has_Sword = false
-                    myMenu.close()
-                } else if (selectedIndex == 2) {
-                    Has_Sword = true
-                    Has_Bow = false
-                    Has_Hammer = false
-                    myMenu.close()
-                }
-            })
-        } else {
-            myMenu = miniMenu.createMenu(
-            miniMenu.createMenuItem("Nothing", assets.image`Nothing`)
-            )
-            myMenu.setFlag(SpriteFlag.StayInScreen, true)
-            myMenu.setDimensions(100, 100)
-            myMenu.setTitle("Weapons")
-            myMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
-                myMenu.close()
-            })
-        }
-        myMenu.onButtonPressed(controller.B, function (selection, selectedIndex) {
-            myMenu.close()
-        })
-    }
-})
 info.onLifeZero(function () {
     screenshot_image = image.screenImage().clone()
     In_game = false
@@ -1065,18 +911,8 @@ let myDart: Dart = null
 let cannon_projectile: Dart = null
 let DistanceFromPlayer = 0
 let screenshot_image: Image = null
-let myMenu: miniMenu.MenuSprite = null
 let Level = 0
-let statusbar: StatusBarSprite = null
-let Standard_Enemy: Sprite = null
 let EffectJump: SpreadEffectData = null
-let Ground_Pound = false
-let Got_Sword = false
-let Got_Hammer = false
-let Got_Bow = false
-let Has_Hammer = false
-let Has_Sword = false
-let Has_Bow = false
 let In_game = false
 let PhantomPlayerSprite: platformer.PlatformerSprite = null
 let Jump = false
@@ -1110,37 +946,12 @@ platformer.setGravity(500, platformer.Direction.Down)
 scene.cameraFollowSprite(PhantomPlayerSprite)
 platformer.setConstantDefault(platformer.PlatformerConstant.MaxJumpHeight, 60)
 CharacterAnimations()
-let mySprite3 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Enemy)
 game.showLongText("PHANTOMS                 A Collaboration Platformer", DialogLayout.Full)
 game.showLongText("By Cursedeclipse, pecan4, Josef, CopySprite, TeddyB, Luke, JtSpeedRun, HaruhitoGames, Not-a-creepy-doll and InvalidProject", DialogLayout.Full)
 tiles.setCurrentTilemap(tilemap`level12`)
 let ShopKeeper = sprites.create(assets.image`ShopKeeper`, SpriteKind.ShopGuy)
 tiles.placeOnRandomTile(PhantomPlayerSprite, assets.tile`Start`)
 In_game = true
-Has_Bow = false
-Has_Sword = false
-Has_Hammer = false
-Got_Bow = false
-Got_Hammer = false
-Got_Sword = false
-Ground_Pound = false
 ShopKeeper.setFlag(SpriteFlag.Invisible, true)
 PhantomPlayerSprite.setFlag(SpriteFlag.StayInScreen, true)
 profilelife.setMaxLife(5)
