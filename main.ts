@@ -12,9 +12,6 @@ namespace SpriteKind {
 namespace StatusBarKind {
     export const TestHP = StatusBarKind.create()
 }
-/**
- * -pecan4
- */
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (PhantomPlayerSprite.isHittingTile(CollisionDirection.Bottom) || PhantomPlayerSprite.isHittingTile(CollisionDirection.Right) || PhantomPlayerSprite.isHittingTile(CollisionDirection.Left)) {
         extraEffects.createSpreadEffectOnAnchor(PhantomPlayerSprite, EffectJump, 500, 10, 20)
@@ -37,11 +34,6 @@ function destroy_all_sprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.MiniMenu)
     sprites.destroyAllSpritesOfKind(SpriteKind.StatusBar)
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`Finish`, function (sprite, location) {
-    if (In_game) {
-        NextLevel()
-    }
-})
 function Effects () {
     EffectJump = extraEffects.createCustomSpreadEffectData(
     [
@@ -56,6 +48,36 @@ function Effects () {
     extraEffects.createPercentageRange(50, 100),
     extraEffects.createTimeRange(200, 400)
     )
+}
+function make_map (map_: number) {
+    if (map_ == 0) {
+        tiles.setCurrentTilemap(tilemap`level12`)
+    }
+    for (let value of tiles.getTilesByType(assets.tile`myTile49`)) {
+        mySprite3 = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Enemy)
+        sprites.setDataString(mySprite3, "type", "fly")
+        tiles.placeOnTile(mySprite3, value)
+        tiles.setTileAt(value, assets.tile`transparency8`)
+    }
+    tiles.placeOnRandomTile(PhantomPlayerSprite, assets.tile`Start`)
+    tileUtil.replaceAllTiles(assets.tile`Start`, assets.tile`transparency16`)
 }
 sprites.onOverlap(SpriteKind.Player_Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite, effects.disintegrate, 200)
@@ -184,28 +206,6 @@ scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
         sprite.ay = 0
     })
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    if (In_game) {
-        timer.throttle("action", 500, function () {
-            Fancily_Destroy(otherSprite)
-            info.changeLifeBy(-1)
-            scene.cameraShake(3, 500)
-        })
-    }
-})
-function NextLevel () {
-    Level += 1
-    if (Level == 1) {
-        tiles.setCurrentTilemap(tilemap`Level 2`)
-        tiles.placeOnTile(PhantomPlayerSprite, tiles.getTileLocation(1, 34))
-    } else if (Level == 2) {
-        info.setLife(3)
-    } else {
-        game.setGameOverEffect(true, effects.confetti)
-        game.setGameOverScoringType(game.ScoringType.None)
-        game.gameOver(true)
-    }
-}
 info.onLifeZero(function () {
     screenshot_image = image.screenImage().clone()
     In_game = false
@@ -911,7 +911,7 @@ let myDart: Dart = null
 let cannon_projectile: Dart = null
 let DistanceFromPlayer = 0
 let screenshot_image: Image = null
-let Level = 0
+let mySprite3: Sprite = null
 let EffectJump: SpreadEffectData = null
 let In_game = false
 let PhantomPlayerSprite: platformer.PlatformerSprite = null
@@ -948,9 +948,7 @@ platformer.setConstantDefault(platformer.PlatformerConstant.MaxJumpHeight, 60)
 CharacterAnimations()
 game.showLongText("PHANTOMS                 A Collaboration Platformer", DialogLayout.Full)
 game.showLongText("By Cursedeclipse, pecan4, Josef, CopySprite, TeddyB, Luke, JtSpeedRun, HaruhitoGames, Not-a-creepy-doll and InvalidProject", DialogLayout.Full)
-tiles.setCurrentTilemap(tilemap`level12`)
 let ShopKeeper = sprites.create(assets.image`ShopKeeper`, SpriteKind.ShopGuy)
-tiles.placeOnRandomTile(PhantomPlayerSprite, assets.tile`Start`)
 In_game = true
 ShopKeeper.setFlag(SpriteFlag.Invisible, true)
 PhantomPlayerSprite.setFlag(SpriteFlag.StayInScreen, true)
@@ -966,6 +964,7 @@ assets.animation`ShopMan`,
 500,
 true
 )
+make_map(0)
 game.onUpdate(function () {
     for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
         if (spriteutils.distanceBetween(PhantomPlayerSprite, value) < DistanceFromPlayer) {
@@ -1115,221 +1114,223 @@ game.onUpdateInterval(2000, function () {
 })
 game.onUpdateInterval(1000, function () {
     for (let value32 of sprites.allOfKind(SpriteKind.Enemy)) {
-        if (spriteutils.distanceBetween(PhantomPlayerSprite, value32) >= 20) {
-            sprites.setDataBoolean(value32, "Shooting", true)
-            if (PhantomPlayerSprite.x < value32.x) {
-                animation.runImageAnimation(
-                value32,
-                [img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . 2 2 2 . . . . . . 
-                    . . . . . 2 2 3 3 3 e . . . . . 
-                    . . . . 2 3 3 3 5 5 3 e . . . . 
-                    . . . 2 3 3 2 5 5 5 5 e . . . . 
-                    . . 2 3 2 2 2 5 5 5 5 e . . . . 
-                    . . 2 2 . . e 2 5 5 2 f . . . . 
-                    . . . . . . . e 2 2 f . . . . . 
-                    . . . . . . . e e f f . . . . . 
-                    . . . . . . . e 2 2 2 f e . . . 
-                    . . . . . . e 2 2 2 f e 2 e . . 
-                    . . . . . . e 2 f e 2 f e e . . 
-                    . . . . . . . e e f e f f f . . 
-                    . . . . . . . . e f f f . f . . 
-                    . . . . . . . . e f . f . . . . 
-                    . . . . . . . . . f . . f . . . 
-                    `,img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . 2 2 2 . . . . . . 
-                    . . . . . 2 2 3 3 3 e . . . . . 
-                    . . . . 2 3 3 3 1 1 3 e . . . . 
-                    . . . 2 3 3 2 1 1 1 1 e . . . . 
-                    . . 2 3 2 2 2 1 1 1 1 e . . . . 
-                    . . 2 2 . . e 2 1 1 2 f . . . . 
-                    . . . . . . . e 2 2 f . . . . . 
-                    . . . . . . . e e f f . . . . . 
-                    . . . . . . . e 2 2 2 f e . . . 
-                    . . . . . . e 2 2 2 f e 2 e . . 
-                    . . . . . . e 2 f e 2 f e e . . 
-                    . . . . . . . e e f e f f f . . 
-                    . . . . . . . . e f f f . f . . 
-                    . . . . . . . . e f . f . . . . 
-                    . . . . . . . . . f . . f . . . 
-                    `,img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . 2 2 2 . . . . . . 
-                    . . . . . 2 2 3 3 3 e . . . . . 
-                    . . . . 2 3 3 3 d d 3 e . . . . 
-                    . . . 2 3 3 2 d 5 5 d e . . . . 
-                    . . 2 3 2 2 2 5 1 1 5 e . . . . 
-                    . . 2 2 . . e 2 5 5 2 f . . . . 
-                    . . . . . . . e 2 2 f . . . . . 
-                    . . . . . . . e e f f . . . . . 
-                    . . . . . . . e 2 2 2 f e . . . 
-                    . . . . . . e 2 2 2 f e 2 e . . 
-                    . . . . . . e 2 f e 2 f e e . . 
-                    . . . . . . . e e f e f f f . . 
-                    . . . . . . . . e f f f . f . . 
-                    . . . . . . . . e f . f . . . . 
-                    . . . . . . . . . f . . f . . . 
-                    `,img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . 2 2 2 . . . . . . 
-                    . . . . . 2 2 3 3 3 e . . . . . 
-                    . . . . 2 3 3 3 d d 3 e . . . . 
-                    . . . 2 3 3 2 d 5 5 d e . . . . 
-                    . . 2 3 2 2 2 5 1 1 5 e . . . . 
-                    . . 2 2 . . e 2 5 5 2 f . . . . 
-                    . . . . . . . e 2 2 f . . . . . 
-                    . . . . . . . e e f f . . . . . 
-                    . . . . . . . e 2 2 2 f e . . . 
-                    . . . . . . e 2 2 2 f e 2 e . . 
-                    . . . . . . e 2 f e 2 f e e . . 
-                    . . . . . . . e e f e f f f . . 
-                    . . . . . . . . e f f f . f . . 
-                    . . . . . . . . e f . f . . . . 
-                    . . . . . . . . . f . . f . . . 
-                    `,img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . 2 2 2 . . . . . . 
-                    . . . . . 2 2 3 3 3 e . . . . . 
-                    . . . . 2 3 3 3 f f 3 e . . . . 
-                    . . . 2 3 3 2 f f f f e . . . . 
-                    . . 2 3 2 2 2 f 5 5 f e . . . . 
-                    . . 2 2 . . e 2 f f 2 f . . . . 
-                    . . . . . . . e 2 2 f . . . . . 
-                    . . . . . . . e e f f . . . . . 
-                    . . . . . . . e 2 2 2 f e . . . 
-                    . . . . . . e 2 2 2 f e 2 e . . 
-                    . . . . . . e 2 f e 2 f e e . . 
-                    . . . . . . . e e f e f f f . . 
-                    . . . . . . . . e f f f . f . . 
-                    . . . . . . . . e f . f . . . . 
-                    . . . . . . . . . f . . f . . . 
-                    `],
-                100,
-                false
-                )
-            } else {
-                animation.runImageAnimation(
-                value32,
-                [img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . 2 2 2 . . . . . . . 
-                    . . . . . e 3 3 3 2 2 . . . . . 
-                    . . . . e 3 5 5 3 3 3 2 . . . . 
-                    . . . . e 5 5 5 5 2 3 3 2 . . . 
-                    . . . . e 5 5 5 5 2 2 2 3 2 . . 
-                    . . . . f 2 5 5 2 e . . 2 2 . . 
-                    . . . . . f 2 2 e . . . . . . . 
-                    . . . . . f f e e . . . . . . . 
-                    . . . e f 2 2 2 e . . . . . . . 
-                    . . e 2 e f 2 2 2 e . . . . . . 
-                    . . e e f 2 e f 2 e . . . . . . 
-                    . . f f f e f e e . . . . . . . 
-                    . . f . f f f e . . . . . . . . 
-                    . . . . f . f e . . . . . . . . 
-                    . . . f . . f . . . . . . . . . 
-                    `,img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . 2 2 2 . . . . . . . 
-                    . . . . . e 3 3 3 2 2 . . . . . 
-                    . . . . e 3 1 1 3 3 3 2 . . . . 
-                    . . . . e 1 1 1 1 2 3 3 2 . . . 
-                    . . . . e 1 1 1 1 2 2 2 3 2 . . 
-                    . . . . f 2 1 1 2 e . . 2 2 . . 
-                    . . . . . f 2 2 e . . . . . . . 
-                    . . . . . f f e e . . . . . . . 
-                    . . . e f 2 2 2 e . . . . . . . 
-                    . . e 2 e f 2 2 2 e . . . . . . 
-                    . . e e f 2 e f 2 e . . . . . . 
-                    . . f f f e f e e . . . . . . . 
-                    . . f . f f f e . . . . . . . . 
-                    . . . . f . f e . . . . . . . . 
-                    . . . f . . f . . . . . . . . . 
-                    `,img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . 2 2 2 . . . . . . . 
-                    . . . . . e 3 3 3 2 2 . . . . . 
-                    . . . . e 3 d d 3 3 3 2 . . . . 
-                    . . . . e d 5 5 d 2 3 3 2 . . . 
-                    . . . . e 5 1 1 5 2 2 2 3 2 . . 
-                    . . . . f 2 5 5 2 e . . 2 2 . . 
-                    . . . . . f 2 2 e . . . . . . . 
-                    . . . . . f f e e . . . . . . . 
-                    . . . e f 2 2 2 e . . . . . . . 
-                    . . e 2 e f 2 2 2 e . . . . . . 
-                    . . e e f 2 e f 2 e . . . . . . 
-                    . . f f f e f e e . . . . . . . 
-                    . . f . f f f e . . . . . . . . 
-                    . . . . f . f e . . . . . . . . 
-                    . . . f . . f . . . . . . . . . 
-                    `,img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . 2 2 2 . . . . . . . 
-                    . . . . . e 3 3 3 2 2 . . . . . 
-                    . . . . e 3 d d 3 3 3 2 . . . . 
-                    . . . . e d 5 5 d 2 3 3 2 . . . 
-                    . . . . e 5 1 1 5 2 2 2 3 2 . . 
-                    . . . . f 2 5 5 2 e . . 2 2 . . 
-                    . . . . . f 2 2 e . . . . . . . 
-                    . . . . . f f e e . . . . . . . 
-                    . . . e f 2 2 2 e . . . . . . . 
-                    . . e 2 e f 2 2 2 e . . . . . . 
-                    . . e e f 2 e f 2 e . . . . . . 
-                    . . f f f e f e e . . . . . . . 
-                    . . f . f f f e . . . . . . . . 
-                    . . . . f . f e . . . . . . . . 
-                    . . . f . . f . . . . . . . . . 
-                    `,img`
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . 2 2 2 . . . . . . . 
-                    . . . . . e 3 3 3 2 2 . . . . . 
-                    . . . . e 3 f f 3 3 3 2 . . . . 
-                    . . . . e f f f f 2 3 3 2 . . . 
-                    . . . . e f 5 5 f 2 2 2 3 2 . . 
-                    . . . . f 2 f f 2 e . . 2 2 . . 
-                    . . . . . f 2 2 e . . . . . . . 
-                    . . . . . f f e e . . . . . . . 
-                    . . . e f 2 2 2 e . . . . . . . 
-                    . . e 2 e f 2 2 2 e . . . . . . 
-                    . . e e f 2 e f 2 e . . . . . . 
-                    . . f f f e f e e . . . . . . . 
-                    . . f . f f f e . . . . . . . . 
-                    . . . . f . f e . . . . . . . . 
-                    . . . f . . f . . . . . . . . . 
-                    `],
-                100,
-                false
-                )
-            }
-            timer.background(function () {
-                for (let index = 0; index < 2; index++) {
-                    myDart = darts.create(img`
+        if (sprites.readDataString(value32, "type") == "fly") {
+            if (spriteutils.distanceBetween(PhantomPlayerSprite, value32) >= 20) {
+                sprites.setDataBoolean(value32, "Shooting", true)
+                if (PhantomPlayerSprite.x < value32.x) {
+                    animation.runImageAnimation(
+                    value32,
+                    [img`
                         . . . . . . . . . . . . . . . . 
+                        . . . . . . . 2 2 2 . . . . . . 
+                        . . . . . 2 2 3 3 3 e . . . . . 
+                        . . . . 2 3 3 3 5 5 3 e . . . . 
+                        . . . 2 3 3 2 5 5 5 5 e . . . . 
+                        . . 2 3 2 2 2 5 5 5 5 e . . . . 
+                        . . 2 2 . . e 2 5 5 2 f . . . . 
+                        . . . . . . . e 2 2 f . . . . . 
+                        . . . . . . . e e f f . . . . . 
+                        . . . . . . . e 2 2 2 f e . . . 
+                        . . . . . . e 2 2 2 f e 2 e . . 
+                        . . . . . . e 2 f e 2 f e e . . 
+                        . . . . . . . e e f e f f f . . 
+                        . . . . . . . . e f f f . f . . 
+                        . . . . . . . . e f . f . . . . 
+                        . . . . . . . . . f . . f . . . 
+                        `,img`
                         . . . . . . . . . . . . . . . . 
+                        . . . . . . . 2 2 2 . . . . . . 
+                        . . . . . 2 2 3 3 3 e . . . . . 
+                        . . . . 2 3 3 3 1 1 3 e . . . . 
+                        . . . 2 3 3 2 1 1 1 1 e . . . . 
+                        . . 2 3 2 2 2 1 1 1 1 e . . . . 
+                        . . 2 2 . . e 2 1 1 2 f . . . . 
+                        . . . . . . . e 2 2 f . . . . . 
+                        . . . . . . . e e f f . . . . . 
+                        . . . . . . . e 2 2 2 f e . . . 
+                        . . . . . . e 2 2 2 f e 2 e . . 
+                        . . . . . . e 2 f e 2 f e e . . 
+                        . . . . . . . e e f e f f f . . 
+                        . . . . . . . . e f f f . f . . 
+                        . . . . . . . . e f . f . . . . 
+                        . . . . . . . . . f . . f . . . 
+                        `,img`
                         . . . . . . . . . . . . . . . . 
+                        . . . . . . . 2 2 2 . . . . . . 
+                        . . . . . 2 2 3 3 3 e . . . . . 
+                        . . . . 2 3 3 3 d d 3 e . . . . 
+                        . . . 2 3 3 2 d 5 5 d e . . . . 
+                        . . 2 3 2 2 2 5 1 1 5 e . . . . 
+                        . . 2 2 . . e 2 5 5 2 f . . . . 
+                        . . . . . . . e 2 2 f . . . . . 
+                        . . . . . . . e e f f . . . . . 
+                        . . . . . . . e 2 2 2 f e . . . 
+                        . . . . . . e 2 2 2 f e 2 e . . 
+                        . . . . . . e 2 f e 2 f e e . . 
+                        . . . . . . . e e f e f f f . . 
+                        . . . . . . . . e f f f . f . . 
+                        . . . . . . . . e f . f . . . . 
+                        . . . . . . . . . f . . f . . . 
+                        `,img`
                         . . . . . . . . . . . . . . . . 
+                        . . . . . . . 2 2 2 . . . . . . 
+                        . . . . . 2 2 3 3 3 e . . . . . 
+                        . . . . 2 3 3 3 d d 3 e . . . . 
+                        . . . 2 3 3 2 d 5 5 d e . . . . 
+                        . . 2 3 2 2 2 5 1 1 5 e . . . . 
+                        . . 2 2 . . e 2 5 5 2 f . . . . 
+                        . . . . . . . e 2 2 f . . . . . 
+                        . . . . . . . e e f f . . . . . 
+                        . . . . . . . e 2 2 2 f e . . . 
+                        . . . . . . e 2 2 2 f e 2 e . . 
+                        . . . . . . e 2 f e 2 f e e . . 
+                        . . . . . . . e e f e f f f . . 
+                        . . . . . . . . e f f f . f . . 
+                        . . . . . . . . e f . f . . . . 
+                        . . . . . . . . . f . . f . . . 
+                        `,img`
                         . . . . . . . . . . . . . . . . 
+                        . . . . . . . 2 2 2 . . . . . . 
+                        . . . . . 2 2 3 3 3 e . . . . . 
+                        . . . . 2 3 3 3 f f 3 e . . . . 
+                        . . . 2 3 3 2 f f f f e . . . . 
+                        . . 2 3 2 2 2 f 5 5 f e . . . . 
+                        . . 2 2 . . e 2 f f 2 f . . . . 
+                        . . . . . . . e 2 2 f . . . . . 
+                        . . . . . . . e e f f . . . . . 
+                        . . . . . . . e 2 2 2 f e . . . 
+                        . . . . . . e 2 2 2 f e 2 e . . 
+                        . . . . . . e 2 f e 2 f e e . . 
+                        . . . . . . . e e f e f f f . . 
+                        . . . . . . . . e f f f . f . . 
+                        . . . . . . . . e f . f . . . . 
+                        . . . . . . . . . f . . f . . . 
+                        `],
+                    100,
+                    false
+                    )
+                } else {
+                    animation.runImageAnimation(
+                    value32,
+                    [img`
                         . . . . . . . . . . . . . . . . 
-                        . . . . . . . 3 3 . . . . . . . 
-                        . . . . . . 3 5 5 3 . . . . . . 
-                        . . . . . . 2 5 5 2 . . . . . . 
-                        . . . . . . . 2 2 . . . . . . . 
+                        . . . . . . 2 2 2 . . . . . . . 
+                        . . . . . e 3 3 3 2 2 . . . . . 
+                        . . . . e 3 5 5 3 3 3 2 . . . . 
+                        . . . . e 5 5 5 5 2 3 3 2 . . . 
+                        . . . . e 5 5 5 5 2 2 2 3 2 . . 
+                        . . . . f 2 5 5 2 e . . 2 2 . . 
+                        . . . . . f 2 2 e . . . . . . . 
+                        . . . . . f f e e . . . . . . . 
+                        . . . e f 2 2 2 e . . . . . . . 
+                        . . e 2 e f 2 2 2 e . . . . . . 
+                        . . e e f 2 e f 2 e . . . . . . 
+                        . . f f f e f e e . . . . . . . 
+                        . . f . f f f e . . . . . . . . 
+                        . . . . f . f e . . . . . . . . 
+                        . . . f . . f . . . . . . . . . 
+                        `,img`
                         . . . . . . . . . . . . . . . . 
+                        . . . . . . 2 2 2 . . . . . . . 
+                        . . . . . e 3 3 3 2 2 . . . . . 
+                        . . . . e 3 1 1 3 3 3 2 . . . . 
+                        . . . . e 1 1 1 1 2 3 3 2 . . . 
+                        . . . . e 1 1 1 1 2 2 2 3 2 . . 
+                        . . . . f 2 1 1 2 e . . 2 2 . . 
+                        . . . . . f 2 2 e . . . . . . . 
+                        . . . . . f f e e . . . . . . . 
+                        . . . e f 2 2 2 e . . . . . . . 
+                        . . e 2 e f 2 2 2 e . . . . . . 
+                        . . e e f 2 e f 2 e . . . . . . 
+                        . . f f f e f e e . . . . . . . 
+                        . . f . f f f e . . . . . . . . 
+                        . . . . f . f e . . . . . . . . 
+                        . . . f . . f . . . . . . . . . 
+                        `,img`
                         . . . . . . . . . . . . . . . . 
+                        . . . . . . 2 2 2 . . . . . . . 
+                        . . . . . e 3 3 3 2 2 . . . . . 
+                        . . . . e 3 d d 3 3 3 2 . . . . 
+                        . . . . e d 5 5 d 2 3 3 2 . . . 
+                        . . . . e 5 1 1 5 2 2 2 3 2 . . 
+                        . . . . f 2 5 5 2 e . . 2 2 . . 
+                        . . . . . f 2 2 e . . . . . . . 
+                        . . . . . f f e e . . . . . . . 
+                        . . . e f 2 2 2 e . . . . . . . 
+                        . . e 2 e f 2 2 2 e . . . . . . 
+                        . . e e f 2 e f 2 e . . . . . . 
+                        . . f f f e f e e . . . . . . . 
+                        . . f . f f f e . . . . . . . . 
+                        . . . . f . f e . . . . . . . . 
+                        . . . f . . f . . . . . . . . . 
+                        `,img`
                         . . . . . . . . . . . . . . . . 
+                        . . . . . . 2 2 2 . . . . . . . 
+                        . . . . . e 3 3 3 2 2 . . . . . 
+                        . . . . e 3 d d 3 3 3 2 . . . . 
+                        . . . . e d 5 5 d 2 3 3 2 . . . 
+                        . . . . e 5 1 1 5 2 2 2 3 2 . . 
+                        . . . . f 2 5 5 2 e . . 2 2 . . 
+                        . . . . . f 2 2 e . . . . . . . 
+                        . . . . . f f e e . . . . . . . 
+                        . . . e f 2 2 2 e . . . . . . . 
+                        . . e 2 e f 2 2 2 e . . . . . . 
+                        . . e e f 2 e f 2 e . . . . . . 
+                        . . f f f e f e e . . . . . . . 
+                        . . f . f f f e . . . . . . . . 
+                        . . . . f . f e . . . . . . . . 
+                        . . . f . . f . . . . . . . . . 
+                        `,img`
                         . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        `, SpriteKind.Projectile, value32.x, value32.y)
-                    sprites.setDataNumber(myDart, "damage", 1)
-                    // Randomness
-                    spriteutils.setVelocityAtAngle(myDart, spriteutils.angleFrom(value32, PhantomPlayerSprite) + spriteutils.degreesToRadians(randint(-10, 10)), 70)
+                        . . . . . . 2 2 2 . . . . . . . 
+                        . . . . . e 3 3 3 2 2 . . . . . 
+                        . . . . e 3 f f 3 3 3 2 . . . . 
+                        . . . . e f f f f 2 3 3 2 . . . 
+                        . . . . e f 5 5 f 2 2 2 3 2 . . 
+                        . . . . f 2 f f 2 e . . 2 2 . . 
+                        . . . . . f 2 2 e . . . . . . . 
+                        . . . . . f f e e . . . . . . . 
+                        . . . e f 2 2 2 e . . . . . . . 
+                        . . e 2 e f 2 2 2 e . . . . . . 
+                        . . e e f 2 e f 2 e . . . . . . 
+                        . . f f f e f e e . . . . . . . 
+                        . . f . f f f e . . . . . . . . 
+                        . . . . f . f e . . . . . . . . 
+                        . . . f . . f . . . . . . . . . 
+                        `],
+                    100,
+                    false
+                    )
                 }
-                timer.after(800, function () {
-                    sprites.setDataBoolean(value32, "Shooting", false)
+                timer.background(function () {
+                    for (let index = 0; index < 2; index++) {
+                        myDart = darts.create(img`
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . 3 3 . . . . . . . 
+                            . . . . . . 3 5 5 3 . . . . . . 
+                            . . . . . . 2 5 5 2 . . . . . . 
+                            . . . . . . . 2 2 . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            . . . . . . . . . . . . . . . . 
+                            `, SpriteKind.Projectile, value32.x, value32.y)
+                        sprites.setDataNumber(myDart, "damage", 1)
+                        // Randomness
+                        spriteutils.setVelocityAtAngle(myDart, spriteutils.angleFrom(value32, PhantomPlayerSprite) + spriteutils.degreesToRadians(randint(-10, 10)), 70)
+                    }
+                    timer.after(800, function () {
+                        sprites.setDataBoolean(value32, "Shooting", false)
+                    })
                 })
-            })
+            }
         }
     }
 })
